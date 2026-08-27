@@ -1,0 +1,36 @@
+{
+  "name": "movie-collection-curator",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20.19"
+  },
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "prepare": "npm run build -w @curator/tmdb",
+    "setup": "docker compose up -d --wait && npm run db:generate && npm run db:migrate && npm run db:seed",
+    "dev": "npm run build -w @curator/tmdb && concurrently -n api,web -c cyan,magenta \"npm run dev -w @curator/api\" \"npm run dev -w @curator/web\"",
+    "db:migrate": "npm run db:migrate -w @curator/api",
+    "db:seed": "npm run db:seed -w @curator/api",
+    "db:reset": "npm run db:reset -w @curator/api",
+    "test": "npm run test --workspaces --if-present",
+    "typecheck": "npm run build -w @curator/tmdb && npm run typecheck --workspaces --if-present",
+    "lint": "eslint .",
+    "db:generate": "npm run db:generate -w @curator/api",
+    "db:studio": "npm run db:studio -w @curator/api"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.0.0",
+    "concurrently": "^9.0.0",
+    "eslint": "^9.0.0",
+    "typescript": "^5.6.0",
+    "typescript-eslint": "^8.0.0"
+  },
+  "overrides": {
+    "deepmerge-ts": "^8.0.2"
+  }
+}

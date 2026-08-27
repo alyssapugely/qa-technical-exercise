@@ -1,0 +1,74 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+/// The owner of a set of collections. Identity arrives as an X-User-Id header.
+model User {
+  id          String       @id @default(uuid())
+  name        String
+  createdAt   DateTime     @default(now())
+  collections Collection[]
+}
+
+model Collection {
+  id        String           @id @default(uuid())
+  name      String
+  userId    String
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items     CollectionItem[]
+
+  @@index([userId])
+}
+
+/// A local snapshot of TMDB, shared by every collection that contains the film.
+/// TMDB remains the system of record; fetchedAt records when the copy was taken.
+model Movie {
+  id             String           @id @default(uuid())
+  tmdbId         Int              @unique
+  title          String
+  overview       String?
+  posterPath     String?
+  releaseDate    DateTime?
+  runtimeMinutes Int?
+  fetchedAt      DateTime
+  genres         Genre[]
+  items          CollectionItem[]
+}
+
+/// TMDB's genre ids are stable and shared across all movies, so they are their
+/// own rows rather than a denormalised array. This is what makes the genre
+/// breakdown a grouping over real data instead of string counting.
+model Genre {
+  id     Int     @id
+  name   String
+  movies Movie[]
+}
+
+/// Membership of a film in a collection, and the annotation that belongs to
+/// that membership. The two are 1:1 by definition, so a separate annotation
+/// table would always hold exactly one row per item. The composite unique key
+/// is what lets the same film carry different notes in different collections.
+model CollectionItem {
+  id           String     @id @default(uuid())
+  collectionId String
+  movieId      String
+  addedAt      DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  note         String?
+  tags         String[]   @default([])
+  /// 1 to 5. Enforced by a database check constraint as well as by Zod;
+  /// see migrations/*_rating_range.
+  rating       Int?
+  collection   Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  movie        Movie      @relation(fields: [movieId], references: [id])
+
+  @@unique([collectionId, movieId])
+  @@index([collectionId])
+}

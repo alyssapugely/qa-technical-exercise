@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.env
+.env.local
+coverage/
+*.tsbuildinfo
+.DS_Store
+
+# Prisma generates the client into the API source tree.
+apps/api/src/generated/
