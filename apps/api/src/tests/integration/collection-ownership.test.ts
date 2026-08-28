@@ -2,9 +2,7 @@ import request from 'supertest'
 import { afterAll, describe, expect, it } from 'vitest'
 import { createApp } from '../../app.js'
 import { prisma } from '../../db.js'
-
-const samId = '11111111-1111-4111-8111-111111111111'
-const alexId = '22222222-2222-4222-8222-222222222222'
+import { alexId, samId } from '../constants.js'
 
 const app = createApp()
 
@@ -46,6 +44,8 @@ describe('collection ownership', () => {
             await request(app)
                 .get(`/api/collections/${samCollectionId}`)
                 .set('X-User-Id', alexId)
+                // Fails until getCollection filters by both collection ID and user ID
+                // The current query filters only by collection ID, so Alex receives Sam's collection with 200
                 .expect(404)
 
             await request(app)
