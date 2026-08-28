@@ -7,7 +7,7 @@ export class CollectionViewPage {
         return this.page.getByRole('heading', { name: `${name} Rename` })
     }
 
-    async renameCollection(currentName: string, newName: string) {
+    async renameCollection(newName: string) {
         await this.page.getByRole('button', { name: 'Rename' }).click()
         await this.page.getByRole('textbox').fill(newName)
         await this.page.getByRole('button', { name: 'Save' }).click()

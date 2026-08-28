@@ -12,7 +12,7 @@ test('user can create, update, and delete a collection', async ({ page }) => {
   await collectionList.createCollection(collectionName)
   await expect(collectionView.heading(collectionName)).toBeVisible()
 
-  await collectionView.renameCollection(collectionName, renamedCollection)
+  await collectionView.renameCollection(renamedCollection)
 
   await collectionView.goBack()
   await expect(collectionList.collectionCard(renamedCollection)).toBeVisible()

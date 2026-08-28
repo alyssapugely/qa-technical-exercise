@@ -170,3 +170,27 @@ collections were ever shared between users, annotations would need their own
   the UI never sends one, so you only ever see the first twenty results.
 - **`window.confirm` for destructive actions.** Blunt and unstyleable. It's there
   because a real confirmation dialog was time I'd rather have spent elsewhere.
+
+## Testing
+### Playwright Tests
+
+To run all Playwright e2e tests, ensure the application is running, then run:
+```bash
+npx playwright install chromium   # one-time setup
+npm run test:e2e # runs headless
+```
+
+To run a single test file:
+```bash
+npx playwright test e2e/{test-file}.test.ts
+```
+
+To run tests headed:
+```bash
+npm run test:e2e -- --headed
+```
+
+To view a failed test trace locally:
+```bash
+npx playwright show-trace test-results/{test-folder}/trace.zip
+```
