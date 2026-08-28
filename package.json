@@ -23,7 +23,8 @@
     "db:generate": "npm run db:generate -w @curator/api",
     "db:studio": "npm run db:studio -w @curator/api",
     "test:e2e": "playwright test",
-    "test:e2e:headed": "playwright test --headed"
+    "test:e2e:headed": "playwright test --headed",
+    "test:api:integration": "npm run test -w @curator/api -- src/tests/integration"
   },
   "devDependencies": {
     "@eslint/js": "^9.0.0",

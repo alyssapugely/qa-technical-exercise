@@ -172,6 +172,23 @@ collections were ever shared between users, annotations would need their own
   because a real confirmation dialog was time I'd rather have spent elsewhere.
 
 ## Testing
+### API Integration Tests
+
+The API integration tests use Supertest and the real PostgreSQL database. The PostgreSQL Docker container must remain running while the tests execute. The API server does not need to be started separately because the tests imports the Express app directly.
+
+To run all tests:
+```bash
+cp .env.example .env    # paste your token into TMDB_READ_TOKEN
+npm install  
+npm run setup
+npm run test:api:integration
+``` 
+
+To run a single test file:
+```bash
+npm run test -w @curator/api -- src/tests/integration/{test-file}.test.ts
+``` 
+
 ### Playwright Tests
 
 To run all Playwright e2e tests, ensure the application is running, then run:
