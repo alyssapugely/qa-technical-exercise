@@ -177,7 +177,8 @@ collections were ever shared between users, annotations would need their own
 To run all Playwright e2e tests, ensure the application is running, then run:
 ```bash
 npx playwright install chromium   # one-time setup
-npm run test:e2e # runs headless
+npm run test:e2e # runs headless, OR
+npm run test:e2e:headed # runs headed
 ```
 
 To run a single test file:
@@ -187,7 +188,7 @@ npx playwright test e2e/{test-file}.test.ts
 
 To run tests headed:
 ```bash
-npm run test:e2e -- --headed
+npx playwright test --headed
 ```
 
 To view a failed test trace locally:
