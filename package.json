@@ -21,10 +21,14 @@
     "typecheck": "npm run build -w @curator/tmdb && npm run typecheck --workspaces --if-present",
     "lint": "eslint .",
     "db:generate": "npm run db:generate -w @curator/api",
-    "db:studio": "npm run db:studio -w @curator/api"
+    "db:studio": "npm run db:studio -w @curator/api",
+    "test:e2e": "playwright test",
+    "test:e2e:headed": "playwright test --headed",
+    "test:api:integration": "npm run test -w @curator/api -- src/tests/integration"
   },
   "devDependencies": {
     "@eslint/js": "^9.0.0",
+    "@playwright/test": "^1.62.1",
     "concurrently": "^9.0.0",
     "eslint": "^9.0.0",
     "typescript": "^5.6.0",
